@@ -1,7 +1,12 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title #{title} · Express Demo
+        link(rel='stylesheet', href='/stylesheets/style.css')
+    body
+        div.barwrap
+            div.bar.vign Express Demo
+            div.bar.title #{title}
+        block content
+        div.barwrap
+            div.bar.title &nbsp;
