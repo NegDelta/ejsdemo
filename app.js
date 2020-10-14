@@ -3,10 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var sqlite3 = require('sqlite3');
 
 var indexRouter = require('./routes/index');
 
 var app = express();
+var db = new sqlite3.Database("db.sqlite3");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
