@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    p This is an sqlite. Hello! These are the tables:
+    ul
+        each row in all_tables
+            li= row.name
+    p
+    
