@@ -2,8 +2,19 @@ extends layout
 
 block content
     p This is an sqlite. Hello! These are the tables:
-    ul
+    table
+        tr
+            th name
+            th schema
         each row in all_tables
-            li= row.name
+            tr
+                td= row.name
+                td
+                    ul
+                        each col in row.schema
+                            li
+                                | #{col.name}
+                                if col.dataType
+                                    | : #{col.dataType}
     p
     
