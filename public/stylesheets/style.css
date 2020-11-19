@@ -1,6 +1,5 @@
 body {
     padding: 50px;
-    //padding-right: 10px;
     font: 14px "Lucida Grande", Helvetica, "Segoe UI", sans-serif;
 }
 
@@ -11,7 +10,7 @@ a {
 .barwrap {
     color: white;
     font-weight: bold;
-    margin: auto -20px;
+    margin: 14px -20px;
     display: block;
     overflow: hidden;
     white-space: nowrap;   
