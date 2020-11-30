@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    p This is an sqlite. Hello! These are the table "dummy":
+    table
+        tr
+            th number
+        each row in all_rows
+            tr
+                td= row
+    
