@@ -7,7 +7,7 @@ function setupRouting(app, db) {
         res.render('index', { title: 'Home' });
     }); 
 
-    app.get('/db/', function(req, res, next) {
+    app.get('/table/', function(req, res, next) {
         function processRows(err, row) {
             query = row["sql"];
             lparen = query.indexOf("(");
@@ -29,7 +29,7 @@ function setupRouting(app, db) {
         var all_tables = [];
         function renderRows(err, rows) {
             console.log("Finished! (" + rows + ")");
-            res.render('db', { title: 'DB Schema', all_tables: all_tables });
+            res.render('db', { title: 'DB Tables Overview', all_tables: all_tables });
         }
         db.each("SELECT name, sql FROM sqlite_master WHERE type='table'",
             processRows, renderRows);
@@ -41,7 +41,7 @@ function setupRouting(app, db) {
         function renderRows(err, rows) {
             console.log("Finished! Dropping results:");
             console.log(rows);
-            res.render('table', { title: 'DB Table View', all_rows: rows, name: req.params.name });
+            res.render('table', { title: 'DB Table', all_rows: rows, name: req.params.name });
         }
         db.all("SELECT * FROM " + req.params.name,
             renderRows);

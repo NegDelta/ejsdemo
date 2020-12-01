@@ -9,11 +9,10 @@ block content
         each row in all_tables
             tr
                 td= row.name
-                td
-                    ul
-                        each col in row.schema
-                            li
-                                | #{col.name}
-                                if col.dataType
-                                    | : #{col.dataType}
-    
+                td: ul
+                    each col in row.schema
+                        li
+                            | #{col.name}
+                            if col.dataType
+                                | : #{col.dataType}
+
