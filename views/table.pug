@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    p This is an sqlite. Hello! These are the table "dummy":
     table
         tr
-            th number
-        each row in all_rows
-            tr
-                td= row
+            th= name
+        if all_rows
+            each row in all_rows
+                tr
+                    td= JSON.stringify(row)
+        else
+            tr.error: td Table doesn't exist or is empty
     

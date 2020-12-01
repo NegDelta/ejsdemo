@@ -29,7 +29,7 @@ function setupRouting(app, db) {
         var all_tables = [];
         function renderRows(err, rows) {
             console.log("Finished! (" + rows + ")");
-            res.render('db', { title: 'DB Interface', all_tables: all_tables });
+            res.render('db', { title: 'DB Schema', all_tables: all_tables });
         }
         db.each("SELECT name, sql FROM sqlite_master WHERE type='table'",
             processRows, renderRows);
@@ -37,18 +37,14 @@ function setupRouting(app, db) {
     });
 
     app.get('/table/:name/', function(req, res, next) {
-        console.log("Requesting table %s", req.params.name);
-        function processRows(err, row) {
-            row_data = JSON.stringify(row);
-            all_rows.push(row_data);
-        }
+        console.log("Requesting table %s...", req.params.name);
         function renderRows(err, rows) {
-            console.log("Finished! (" + rows + ")");
-            res.render('table', { title: 'DB Interface - Table View Proto', all_rows: all_rows });
+            console.log("Finished! Dropping results:");
+            console.log(rows);
+            res.render('table', { title: 'DB Table View', all_rows: rows, name: req.params.name });
         }
-        var all_rows = [];
-        db.each("SELECT * FROM " + req.params.name,
-            processRows, renderRows);
+        db.all("SELECT * FROM " + req.params.name,
+            renderRows);
     });
 }
 

@@ -38,3 +38,10 @@ a {
 td {
     background-color: #ddd;
 }
+
+tr.error td {
+    background-color: transparent;
+    border: 1px #aaa solid;
+    color: #aaa;
+    font-style: italic;
+}
