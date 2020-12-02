@@ -24,11 +24,9 @@ function setupRouting(app, db) {
                 schemaArr.push(colStmtObj);
             }
             all_tables.push({ name: row["name"], schema: schemaArr });
-            console.log("Table has query: " + query);
         }
         var all_tables = [];
         function renderRows(err, rows) {
-            console.log("Finished! (" + rows + ")");
             res.render('db', { title: 'DB Tables Overview', all_tables: all_tables });
         }
         db.each("SELECT name, sql FROM sqlite_master WHERE type='table'",
@@ -37,14 +35,22 @@ function setupRouting(app, db) {
     });
 
     app.get('/table/:name/', function(req, res, next) {
-        console.log("Requesting table %s...", req.params.name);
-        function renderRows(err, rows) {
-            console.log("Finished! Dropping results:");
-            console.log(rows);
-            res.render('table', { title: 'DB Table', all_rows: rows, name: req.params.name });
+        function renderResponse(err, rows) {
+            console.log(`Trying for "${rows}..."`);
+            if(rows.length > 0) {
+                function renderRows(err, rows) {
+                    res.render('table', { title: 'DB Table', all_rows: rows, name: req.params.name });
+                }
+                db.all("SELECT * FROM " + req.params.name,
+                    renderRows);
+            } else {
+                res.redirect("/table/");
+            }
         }
-        db.all("SELECT * FROM " + req.params.name,
-            renderRows);
+        db.all(
+            `SELECT name FROM sqlite_master WHERE type='table' AND name='${req.params.name}';`,
+            renderResponse
+        );
     });
 }
 
