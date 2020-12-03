@@ -4,11 +4,12 @@ block content
     table
         tr
             th= name
-        if all_rows
+        if all_rows.length > 0
             each row in all_rows
                 tr
                     td= JSON.stringify(row)
         else
-            tr.error: td Table doesn't exist or is empty
-    a(href="..") < Back to Tables
+            tr.error: td Empty
+    p
+        a(href="..") < Back to Tables
     
