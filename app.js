@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sqlite3 = require('sqlite3');
+var slashes = require('connect-slashes');
 
 var app = express();
 var db = new sqlite3.Database("db.sqlite3");
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(slashes());
 
 // setup routing
 routing(app, db);
