@@ -8,7 +8,8 @@ block content
             th schema
         each row in all_tables
             tr
-                td= row.name
+                td
+                    a(href=row.name)= row.name
                 td: ul
                     each col in row.schema
                         li
