@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const fetch = require('node-fetch');
 
 function setupRouting(app, db) {
     /* GET home page. */
@@ -36,7 +37,6 @@ function setupRouting(app, db) {
 
     app.get('/table/:name/', function(req, res, next) {
         function renderResponse(err, rows) {
-            console.log(`Trying for "${rows}..."`);
             if(rows.length > 0) {
                 function renderRows(err, rows) {
                     res.render('table', { title: 'DB Table', all_rows: rows, name: req.params.name });
@@ -51,6 +51,15 @@ function setupRouting(app, db) {
             `SELECT name FROM sqlite_master WHERE type='table' AND name='${req.params.name}';`,
             renderResponse
         );
+    });
+
+    app.get('/czter/', function(req, res, next) {
+        var dump = fetch("https://a.4cdn.org/g/threads.json")
+            .then(res => res.json())
+            .then(json => 
+                res.render("dump", {title: "/g/ Thread Dump", text: JSON.stringify(json)})
+            );
+        //res.redirect("/");
     });
 }
 
