@@ -35,21 +35,25 @@ function setupRouting(app, db) {
     });
 
     app.get('/table/:name/', function(req, res, next) {
-        function renderResponse(err, rows) {
+        function renderValidRows(err, rows) {
+            res.render('table', {
+                title: 'DB Table',
+                all_rows: rows,
+                name: req.params.name 
+            });
+        }
+        function renderAny(err, rows) {
             console.log(`Trying for "${rows}..."`);
             if(rows.length > 0) {
-                function renderRows(err, rows) {
-                    res.render('table', { title: 'DB Table', all_rows: rows, name: req.params.name });
-                }
                 db.all("SELECT * FROM " + req.params.name,
-                    renderRows);
+                    renderValidRows);
             } else {
                 res.redirect("/table/");
             }
         }
         db.all(
             `SELECT name FROM sqlite_master WHERE type='table' AND name='${req.params.name}';`,
-            renderResponse
+            renderAny
         );
     });
 }
