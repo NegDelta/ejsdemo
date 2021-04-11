@@ -22,14 +22,13 @@ function setupRouting(app, db) {
             
             schemaArr = new Array;
             for (icol of columnStrs) {
-                // TODO: seems to not work
-                colStatementArr = icol.split(" ");
-                if (colStatementArr.length == 2) {
-                    // type is given
-                    colStatementObj = { name: colStatementArr[1], dataType: colStatementArr[0] };
-                } else {
+                colStatementArr = icol.trim().split(/\s+/);
+                if (colStatementArr.length == 1) {
                     // type is not given
                     colStatementObj = { name: colStatementArr[0] };
+                } else {
+                    // type is given
+                    colStatementObj = { name: colStatementArr[0], dataType: colStatementArr[1] };
                 }
                 schemaArr.push(colStatementObj);
             }
