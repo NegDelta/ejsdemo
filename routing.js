@@ -52,7 +52,7 @@ function setupRouting(app, db) {
         // Render table view, given array of rows
         function renderValidRows(err, rows) {
             res.render('table', {
-                title: 'DB Table',
+                title: 'DB Table · ' + tblname,
                 all_rows: rows,
                 name: tblname 
             });

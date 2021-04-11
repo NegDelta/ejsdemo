@@ -6,7 +6,6 @@ To-dos:
     - Table index:
         - move schema to table view
     - Table view:
-        - include table name in title, header
         - list all column keys
         - note row count
         - get schema
