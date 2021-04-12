@@ -5,8 +5,9 @@ To-dos:
 - DB Interface:
     - Table index:
         - move schema to table view
+            - isolate schema extraction
     - Table view:
-        - list all column keys
         - note row count
         - get schema
+        - list all column keys
         - SELECT args from GET args

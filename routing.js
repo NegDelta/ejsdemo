@@ -9,6 +9,8 @@ function setupRouting(app, db) {
 
     // GET tables overview
     app.get('/table/', function(req, res, next) {
+        var all_tables = [];
+
         // Serialize given single row
         function processRows(err, row) {
             queryStr = row["sql"];
@@ -34,7 +36,6 @@ function setupRouting(app, db) {
             }
             all_tables.push({ name: row["name"], schema: schemaArr });
         }
-        var all_tables = [];
         
         // Render db view, given array of table metas
         function renderRows(err, rows) {
@@ -49,6 +50,7 @@ function setupRouting(app, db) {
     // GET single table view
     app.get('/table/:name/', function(req, res, next) {
         const tblname = req.params.name;
+        var tblsql = null;
         // Render table view, given array of rows
         function renderValidRows(err, rows) {
             res.render('table', {
@@ -57,19 +59,22 @@ function setupRouting(app, db) {
                 name: tblname 
             });
         }
-        // Render view depending on validity of given array of rows
-        function renderAny(err, rows) {
-            console.log(`Trying for "${rows}..."`);
-            if(rows.length > 0) {
+        // Render view depending on validity of given sqlite_master row
+        function renderAny(err, row) {
+            console.log(`Trying for "${JSON.stringify(row)}..."`);
+            if(row != undefined) {
+                // a table with given name exists
+                tblsql = row["sql"];
                 db.all("SELECT * FROM " + tblname,
-                    renderValidRows);
+                renderValidRows);
             } else {
+                // a table with given name does not exist
                 res.redirect("/table/");
             }
         }
         // Query db for rows and render
-        db.all(
-            `SELECT name FROM sqlite_master WHERE type='table' AND name='${tblname}';`,
+        db.get(
+            `SELECT name, sql FROM sqlite_master WHERE type='table' AND name='${tblname}';`,
             renderAny
         );
     });
