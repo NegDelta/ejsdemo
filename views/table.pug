@@ -1,6 +1,14 @@
 extends layout
 
 block content
+    p Schema:
+    ul
+        each col in schema
+            li
+                | #{col.name}
+                if col.dataType
+                    | : #{col.dataType}
+    p Row count: #{all_rows.length}
     table
         tr
             th= name
