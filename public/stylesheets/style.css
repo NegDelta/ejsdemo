@@ -53,3 +53,9 @@ tr.error td {
     font-style: italic;
     text-align: center;
 }
+
+textarea#query {
+    width: 800px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

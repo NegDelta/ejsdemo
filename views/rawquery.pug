@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    form(method="POST")
+        | Enter query: 
+        textarea#query(name="query", cols="30", rows="10")
+        input(type="submit", value="Submit")
+

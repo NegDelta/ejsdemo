@@ -37,16 +37,13 @@ function setupRouting(app, db) {
         
         // Serialize given single row
         function processRow(err, row) {
-            console.log(`Got row: "${JSON.stringify(row)}..."`);
             queryStr = row["sql"];
             const schema = getSchemaFromSql(queryStr); 
-            console.log(`Got schema: "${JSON.stringify(schema)}..."`);
             all_tables.push({ name: row["name"], schema: schema });
         }
         
         // Render db view, given array of table metas
         function renderRows(err, rows) {
-            console.log(`Trying for "${JSON.stringify(all_tables)}..."`);
             res.render('db', { title: 'DB Tables Overview', all_tables: all_tables });
         }
         // Query db for rows, prepare array and render
@@ -69,7 +66,6 @@ function setupRouting(app, db) {
         }
         // Render view depending on validity of given sqlite_master row
         function renderAny(err, row) {
-            console.log(`Trying for "${JSON.stringify(row)}..."`);
             if(row != undefined) {
                 // a table with given name exists
                 tblSchema = getSchemaFromSql(row["sql"]);
@@ -85,6 +81,17 @@ function setupRouting(app, db) {
             `SELECT name, sql FROM sqlite_master WHERE type='table' AND name='${tblName}';`,
             renderAny
         );
+    });
+
+    app.get('/query/', function(req, res, next) {
+        res.render('rawquery', {
+            title: 'DB Raw Query'
+        });
+    });
+
+    app.post('/query/', function(req, res, next) {
+        console.log("Got query: " + req.body["query"]);
+        res.redirect("/query/");
     });
 }
 
