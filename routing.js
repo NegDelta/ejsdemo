@@ -90,7 +90,12 @@ function setupRouting(app, db) {
     });
 
     app.post('/query/', function(req, res, next) {
-        console.log("Got query: " + req.body["query"]);
+        function handleSqlErr(err) {
+            console.log(err);
+        }
+        const sqlQuery = req.body["query"];
+        console.log("Got query: " + sqlQuery);
+        db.run(sqlQuery, handleSqlErr);
         res.redirect("/query/");
     });
 }
